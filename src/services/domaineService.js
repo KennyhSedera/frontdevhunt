@@ -7,11 +7,14 @@ export default {
    delete (data) {
        return Api().delete('domaine/'+data)
        }, 
-   update (data) {
-       return Api().put('domaine', data)
+   update (data, id) {
+       return Api().put('domaine/'+id, data)
        },
    getAll () {
        return Api().get('domaine')
-       }
+       },
+   getOne (id) {
+       return Api().get('domaine/'+id)
+       },
     
      }

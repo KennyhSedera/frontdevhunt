@@ -12,10 +12,12 @@ import HistoriqueConnexion from './views/HistoriqueConnexion/index.vue'
 import Dashboard from './views/Dashboard.vue'
 import Message from './components/discussionMessage.vue'
 import Publication from './views/Publication/pagePublication.vue'
-import Matiere from './views/Informations/matiere.vue'
 import Domaine from './views/Informations/domaine.vue'
+import Matiere from './views/Informations/matiere.vue'
 import Niveau from './views/Informations/niveau.vue'
-import Parcours from './views/Informations/parcours.vue'
+import Parcour from './views/Informations/parcour.vue'
+
+>>>>>>> 270881744082996834af54bb997f1da908102a7c
 Vue.use(Router)
 
 
@@ -55,13 +57,13 @@ const router = new Router({
       component: Domaine
     },
     {
-      path: '/admin/gerer/parcours',
-      name: 'Parcours',
+      path: '/admin/gerer/matiere',
+      name: 'Matiere',
       meta: {
-        title: 'Parcours'
+        title: 'Matiere'
       },
-      component: Parcours
-    },
+      component: Matiere
+   },
     {
       path: '/admin/gerer/niveau',
       name: 'Niveau',
@@ -71,7 +73,15 @@ const router = new Router({
       component: Niveau
     },
     {
-      path: '/dashboard',
+      path: '/admin/gerer/parcours',
+      name: 'Parcour',
+      meta: {
+        title: 'Parcour'
+      },
+      component: Parcour
+    },
+    {
+    path: '/dashboard',
       name: 'Dashboard',
       meta: {
         title: 'Bilan'

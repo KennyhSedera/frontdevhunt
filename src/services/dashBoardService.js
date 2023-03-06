@@ -1,11 +1,11 @@
 import Api from '@/services/Api'
 
 export default { 
-    getDeclaration () {
-        return Api().get('dashboard/declaration')
+    countEtudParcours (id) {
+        return Api().get('countEtudiantParcour/'+id)
    },
-   getSecteur () {
-       return Api().get('dashboard/secteur')
+   getEtudiantPublication (id) {
+       return Api().get('getEtudiantPublication/'+id)
        },
    getPays () {
        return Api().get('dashboard/pays')

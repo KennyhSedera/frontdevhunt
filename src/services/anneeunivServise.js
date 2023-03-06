@@ -7,11 +7,14 @@ export default {
    delete (data) {
        return Api().delete('anneeuniv/'+data)
        }, 
-   update (data) {
-       return Api().put('anneeuniv', data)
+   update (data, id_annee) {
+       return Api().put('anneeuniv/'+id_annee, data)
        },
    getAll () {
        return Api().get('anneeuniv')
-       }
+       },
+   getOne (data) {
+       return Api().get('anneeuniv/'+data)
+       },
     
      }
