@@ -1,13 +1,14 @@
 <template>
-    <div class="pt-6  ma-4" >   
-      <div class="text-xl-h1 text-lg-h2 text-md-h3  text-h4 text-sm-h3  blue--text font-weight-black"> <span class="grey--text">P</span>arcours</div>  
+    <div class="pt-4  ma-4" >   
       <div>
-      <v-card class="my-4 pa-5">
+      <v-card class="my-2 pa-5">
        <v-card-title >
-            <v-spacer></v-spacer>
-                <v-col>
+            <div class="text-xl-h1 text-lg-h2 text-md-h3  text-h4 text-sm-h3  blue--text font-weight-black"> <span class="grey--text">P</span>arcours</div>  
+              <v-spacer></v-spacer>
+              <v-spacer></v-spacer>
+                <v-col class="col-4 col-xl-3 col-lg-3 col-md-3 col-sm-5">
                      <v-text-field
-                    class='mb-8 rounded-pill col-9 col-xl-4 col-lg-4 col-md-4 col-sm-5 '
+                        class='mb-3 rounded-pill col-12'
                         v-model="search"
                         append-icon="fas fa-search"
                         label="Search"
@@ -29,7 +30,7 @@
                   </v-toolbar-title>
                 </v-toolbar>
               <div class="px-8 elevation py-2  mr-4">
-                  <v-text-field  align='left' :readonly='readonly' label="Id parcour"   v-model='idParcour' prepend-icon='fas fa-folder-open'/>
+                  <v-text-field  align='left' readonly=true label="Id parcour"   v-model='id_parcours' prepend-icon='fas fa-folder-open'/>
                   <v-text-field align='right' label="Nom parcour" v-model='nomParcour' prepend-icon='fas fa-home' class="mb-2"/>
                   <v-btn color='cyan' outlined class="  rounded-pill white--text mr-4 my-4 col-6 " center @click="AddorUpdate" >
                     <span class="text-capitalize" align='center'>{{Textbtn}}</span>
@@ -58,20 +59,20 @@
             </div>
         </v-col>
       </v-row>
-     <!-- <deleteDialog  ref="deleteModal" @confirm='deleteParcour' title='Supprimer le parcour' :message='deleteMessage'  ></deleteDialog>
-      <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage> -->
+     <deleteDialog  ref="deleteModal" @confirm='deleteParcour' title='Supprimer le parcour' :message='deleteMessage'  ></deleteDialog>
+      <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage>
   </div>
   </div>
 </template>
 <script >
-//    import deleteDialog from '../components/Delete'
-//    import alertMessage from '../components/alertMessage'
+   import deleteDialog from '../../components/Delete'
+   import alertMessage from '../../components/alertMessage'
    import parcourService  from '../../services/parcourService'
 
 export default{ name : "pageDomaine",
   components :{
-//    deleteDialog,
-//    alertMessage,
+   deleteDialog,
+   alertMessage,
    },
     data () {
         return{
@@ -84,7 +85,7 @@ export default{ name : "pageDomaine",
           readonly : false,
          Textbtn : 'Enregistrer',
           show : '',
-         idParcour : '',
+         id_parcours : '',
          nomParcour :'',
          search:'',
          totalParcour :0,
@@ -93,8 +94,8 @@ export default{ name : "pageDomaine",
         titre:'',
         Parcour :[],
         header :[
-            {text:'Id parcour',value:'id_parcour'},
-            {text:'Nom parcour',value:'nom_parcour'},
+            {text:'Id parcour',value:'id_parcours'},
+            {text:'Nom parcour',value:'libelle_parcours'},
             {text: 'Actions',value: 'action',sortable:false,groupable:false}
            ],
                    
@@ -114,12 +115,20 @@ export default{ name : "pageDomaine",
       },
   methods: {  
     alert(){
-    //  this.$refs.alert.openAlert()
+     this.$refs.alert.openAlert()
    },
+    getMax(){
+      if (this.Parcour.length<= 0){
+            this.id_parcours= '1'
+        }else {
+            var max  = this.Parcour[this.Parcour.length - 1].id_parcours
+        }
+        const num = parseInt(max)+1
+        this.id_parcours= num
+    },
      async register () {
           await parcourService.register({
-            id_parcour: this.idParcour,
-            nom_parcour: this.nomParcour.toUpperCase()
+            libelle_parcours: this.nomParcour.toUpperCase()
             }).then(response=>{
               this.loading = true 
               if(response.data.success){
@@ -149,7 +158,7 @@ export default{ name : "pageDomaine",
          this.Textbtn= 'Modifier'
          this.readonly = true
          this.title = `Modification du pays n° ${data.id_parcour}`       
-         this.idParcour= data.id_parcour,
+         this.id_parcours= data.id_parcour,
          this.nomParcour = data.nom_Parcour
      },
      async update ( ){
@@ -158,7 +167,7 @@ export default{ name : "pageDomaine",
             nom_parcour: this.nomParcour.toUpperCase(),
            },
             where: {
-               id_parcour: this.idParcour
+               id_parcour: this.id_parcours
             }
           }).then(response=>{
              if(response.data.success){
@@ -195,7 +204,7 @@ export default{ name : "pageDomaine",
         
      },
      clearForm () {
-         this.idParcour = ''
+         this.id_parcours = ''
          this.readonly = false
          this.nomParcour = ''   
         this.Textbtn='Enregistrer'
@@ -203,7 +212,8 @@ export default{ name : "pageDomaine",
     async getDataFromApi () {
            const response = await parcourService.getAll()
           //console.log(response.data.parcour)
-          this.Parcour = response.data.parcour
+          this.Parcour = response.data.Parcours
+          this.getMax()
           
         },
        async deleteParcour(){
@@ -230,12 +240,12 @@ export default{ name : "pageDomaine",
           
     },
     selectTodelete(data){
-    //    this.$refs.deleteModal.openDialog()
+       this.$refs.deleteModal.openDialog()
        this.deleteMessage = `Voulez vous supprimer le parcour ${data.nom_parcour} qui a un id ${data.id_parcour}?`
        this.delSelected = data.id_parcour
      },
      closeModal(){
-    //    this.$refs.deleteModal.closeDialog()
+       this.$refs.deleteModal.closeDialog()
        this.delSelected = []
        this.selected =  []
      }

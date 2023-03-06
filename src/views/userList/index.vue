@@ -64,7 +64,7 @@
                               </v-card-actions></v-img >
                                 <v-flex class="mt-n11 " >
                                     <v-avatar size="100"  class="grey lighten-2 elevation-1">
-                                         <v-img src="admin2.jpg" ></v-img>
+                                         <v-img :src="user.photo_Profil" ></v-img>
                                     </v-avatar>
                                         
                                    <v-btn absolute  icon class="ml-n6 mt-16 mb-n9">
@@ -80,7 +80,7 @@
                                 
                                 <div class="text-heading-6 pa-1 col-12 text-truncate">
                                     <v-icon small class="ma-1">fas fa-user</v-icon> 
-                                    {{user.role}}
+                                    {{user.matricule}}H-F
                                 </div>
                                 <div class="text-heading-6 pa-1 col-12 text-truncate">
                                     <v-icon small class="ma-1">fas fa-envelope</v-icon>
@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="text-heading-6 pa-1 col-12 text-truncate">
                                     <v-icon small class="ma-1">fas fa-tty</v-icon> 
-                                    {{user.num_tel}}
+                                    {{user.contact}}
                                 </div>
                                 <div class="text-heading-6 cursor pa-1 col-12 text-truncate" @click="navigateTo({name:'userProfil',params:{idUser: user.id_user}})">
                                      <v-icon small class="ma-1">fas fa-ellipsis-h</v-icon>
@@ -158,6 +158,7 @@ import deleteDialog from '@/components/Delete'
 import register from '../Register'
 import AuthentificationService from '@/services/AuthentificationServices'
 import server from  '@/services/server.config'
+import EtudiantService from  '@/services/etudiantService'
  import  pageLoader  from "@/components/pageLoader";
 
  export default {
@@ -169,19 +170,7 @@ import server from  '@/services/server.config'
             utilisateur:'',
             message : '',
             hasUpdated: false,
-            users:[
-                {id:1,email: 'avoutrarandriah@gmail.com',password: '$2a$08$cbKXzEbyOTat722PxtYNIOYiLeXiSIFOTHvtEZ6ewflNezrrnrShq',profil_image: 'uploads/IMG_7302.JPG',user_permission:'Administrateur',status_user:true,status_connexion: true,created_at: '2021-04-01 00:00:00',updated_at: '2022-12-13 09:30:18',user_matricule:554,nom: 'LIONEL',prenom: 'Messi',date_naiss: '2021-05-04 00:00:00',lieu_naiss: 'Argentine',adresse: 'Barcelone',role: 'Inspecteur', num_tel:554554554},
-                {id:2,email: 'rojonantenaina@gmail.com', password:'$2a$08$tLz7oSw/6z2YF/ldF21GJesnzi.2Rj4y1VglgdYAVyFucNrFNaMX6',profil_image: 'uploads/IMG_7221.JPG',user_permission:'User', status_user:true, status_connexion:false, created_at:'2021-04-01 00:00:00', updated_at:'2022-10-15 15:12:56',user_matricule:1985,nom: 'RANDRIAHARIMALALA',prenom: 'Avotra',date_naiss: '2021-04-05 00:00:00',lieu_naiss: 'Imady',adresse: 'ISada', role:'Controlleur', num_tel:342662319},
-                {id:3,email: 'mandressy@gmail.com',password: '$2a$08$u2g2evIzmAUN0eU6P7ts9.8sKbcv66Pqc.OECJACejMbII1ne93f.', profil_image:'uploads/IMG_7200.JPG',user_permission:'User',status_user: true,status_connexion: true,created_at: '2021-04-01 00:00:00',updated_at: '2022-10-15 15:11:55',user_matricule:4564,nom: 'JOSOAH',prenom: 'Nantenaina',date_naiss: '2021-04-12 00:00:00',lieu_naiss: 'Ambatao',adresse: 'Andrainato',role: 'Auditeur',num_tel: 44555654},
-                {id:4,email: 'josoah@gmail.com',password: '$2a$08$0evnvyc.dk4RsEQNixzS5.B38xLQ73/KTdYoyOcunZ.a7AnwrQq0C',profil_image: 'uploads/IMG_7234.JPG', user_permission:'User', status_user:true, status_connexion:true, created_at:'2021-04-01 00:00:00', updated_at:'2022-10-15 15:10:46',user_matricule:5545,nom: 'ROJONANTENAINA',prenom: 'Henri Paul',date_naiss: '2021-03-10 00:00:00',lieu_naiss: 'Ambato',adresse: 'Imandry', role:'Controlleur',num_tel: 45},
-                {id:5,email: 'zukoyan.jason@gmail.com', password:'$2a$08$mjSbWVdXxrX6Ohr6ElIuUeJRytVsHSxKiEXBCeypBF0A2esS2M2oq',profil_image: 'uploads/IMG_20220802_202921.jpg',user_permission: 'User',status_user: true,status_connexion: true,created_at: '2021-04-07 00:00:00',updated_at: '2022-10-31 20:42:33',user_matricule:5665,nom: 'ZATOVO',prenom: 'Daniel',date_naiss: '1996-01-03 00:00:00',lieu_naiss: 'Mandrosonoro',adresse: 'Isada', role:'Auditeur',num_tel: 344555678},
-                {id:6,email: 'zatovodaniel@gmail.com',password: '$2a$08$7VfMbe4l3QVsOd0sgZTcv.MALnQJxDwgkrPhU1PgH34XI3fPUP1kW',profil_image: 'uploads/IMG_7251.JPG',user_permission: 'Administrateur',status_user: true,status_connexion: true,created_at: '2021-04-04 00:00:00',updated_at: '2022-11-28 22:38:39',user_matricule:10098,nom: 'ANDRIATSITOHAINAHARIMALALA',prenom: ' Miangoty Fitia',date_naiss: '1998-04-05 00:00:00',lieu_naiss: 'Fianarantsoa', adresse:'Lot 03KIII-M/3605', role:'Côntrolleur',num_tel: 347263334},
-                {id:7,email: 'lionel.messi@gmail.com',password: '$2a$08$pUxeQbQgbxNluSwuj8hsx.WNUTQWEdB/RYNFf.XBure77G91nDzyy',profil_image: 'uploads/IMG_20220812_180144.jpg',user_permission: 'Consulteur',status_user: true,status_connexion: false,created_at: '2021-05-01 11:45:33',updated_at: '2022-10-16 01:29:51',user_matricule:44555,nom: 'MANDRESY',prenom: 'Jofama',date_naiss: '2021-04-04 00:00:00',lieu_naiss: 'Ambositra',adresse: 'Isada', role:'Auditeur', num_tel:341786640},
-                {id:8,email: 'randriah@gmail.com', password:'$2a$08$7Ieo/0xW9xjFV1n9HAEBkukf2cuAORa9X0RpxIa1Ot0HgnoDvQx7O',profil_image: 'uploads/1 (384).jpg',user_permission: 'Consulteur',status_user: true,status_connexion: false,created_at: '2021-05-01 20:02:18',updated_at: '2022-10-14 22:28:18',user_matricule:44565,nom: 'ZUKO ', prenom:'Yan', date_naiss:'2021-04-04 00:00:00',lieu_naiss: 'Fianarantsoa',adresse: 'Antsahameva',role: 'Controlleur',num_tel: 340745643},
-                {id:9,email: 'jaomalala@gmail.com', password:'$2a$08$7Ieo/0xW9xjFV1n9HAEBkukf2cuAORa9X0RpxIa1Ot0HgnoDvQx7O', profil_image:'uploads/1 (384).jpg',user_permission:'User',status_user: true,status_connexion: true,created_at: '2022-10-07 05:59:17',updated_at: '2022-10-31 15:13:25',user_matricule:100034,nom: 'JAOMALALA',prenom: ' Tolojanahary Play Jofama',date_naiss: '2022-10-07 05:54:06',lieu_naiss: 'IMADY',adresse: 'AMBATOFINANDRAHANA',role: 'Auditeur',num_tel: 34726333},
-                {id:10,email: 'miangotyandriah@gmail.com',password: '$2a$08$7Ieo/0xW9xjFV1n9HAEBkukf2cuAORa9X0RpxIa1Ot0HgnoDvQx7O',profil_image: 'uploads/Snapchat-921710734.jpg',user_permission:'User',status_user: false,status_connexion: true,created_at: '2022-10-10 12:57:47',updated_at: '2022-10-31 15:13:17',user_matricule:545554,nom: 'RANDRIAHARIMALALA',prenom: 'AVOTRA',date_naiss: '2021-05-11 00:00:00', lieu_naiss:'SDKVLLDKSKLDGHKLSD',adresse: 'LLSKDVLKSDKLQLK',role: 'Inspecteur',num_tel: 0},
-                {id:12,email: 'azertyuiop@gmail.com',password: '$2a$08$7Ieo/0xW9xjFV1n9HAEBkukf2cuAORa9X0RpxIa1Ot0HgnoDvQx7O', profil_image:'uploads/954026446.jpg',user_permission:'Consulteur',status_user: false,status_connexion: true,created_at: '2022-10-15 14:37:51',updated_at: '2022-10-31 15:13:54',user_matricule:7676576,nom: 'UKKUGUGUGKUGUKG',prenom: ' Lmumlumlu',date_naiss: '2004-10-15 00:00:00',lieu_naiss: 'klhkhlkhkl',adresse: 'lkhlkhklh', role:'Agent',num_tel: 2147483647},
-                ],
+            users:[],
             show:false,
             search:'',
             file:null,
@@ -278,8 +267,8 @@ import server from  '@/services/server.config'
     },
     async getAllUsers () {
         this.$refs.loader.loading()
-    //    const response = await AuthentificationService.show()
-    //    this.users = response.data.user
+       const response = await EtudiantService.getAll()
+       this.users = response.data.Etudiant
        this.userCopy = this.users
        this.getList()
        }, 

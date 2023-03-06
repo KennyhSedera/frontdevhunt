@@ -86,8 +86,6 @@
 </template>
 <script >
 import cardHover from "../components/cardHover"
-import domaineService from "../services/domaineService"
-
 export default {
    name:"homePage",
   components:{
@@ -103,19 +101,12 @@ export default {
               {src: 'Caroussel/caroussel (5).jpg',float:'left',color:'blue'}
 
           ],
-          Domaines:[]
+          Domaines:[{name:"Devloppement",description:"Lorem iposum"},
+                    {name:"Réseaux",description:"Lorem iposum"},
+                    {name:"Communications & langues ",description:"Lorem iposum"}]
         }
     },
     methods:{
-      async getAll(){
-        await domaineService.getAll()
-        .then(res =>{
-          this.Domaines = res.data.Domaine
-        })
-        .catch(err =>{
-          console.log(err)
-        })
-      },
       navigateTo (route) {
         this.$router.push(route)
         },

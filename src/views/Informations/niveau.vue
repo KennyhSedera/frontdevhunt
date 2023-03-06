@@ -1,21 +1,21 @@
 <template>
-    <div class="pt-6  ma-4" >   
-      <div class="text-xl-h1 text-lg-h2 text-md-h3  text-h4 text-sm-h3  blue--text font-weight-black"> <span class="grey--text">N</span>iveaux</div>  
+    <div class="pt-4  ma-4" >   
       <div>
-      <v-card class="my-4 pa-5">
+      <v-card class="my-2 pa-5">
        <v-card-title >
-            <v-spacer></v-spacer>
+            <div class="text-xl-h1 text-lg-h2 text-md-h3  text-h4 text-sm-h3  blue--text font-weight-black"> <span class="grey--text">N</span>iveaux</div>  
+      <v-spacer></v-spacer>
 
-            <v-col>
+            <v-col class=" col-xl-4 col-lg-4 col-md-4 col-sm-5">
            <v-text-field
-            class='mb-8 rounded-pill col-9 col-xl-4 col-lg-4 col-md-4 col-sm-5 '
-                v-model="search"
-                append-icon="fas fa-search"
-                label="Search"
-                single-line
-                outlined
-                dense
-                hide-details
+              class='mb-2 rounded-pill col-12'
+              v-model="search"
+              append-icon="fas fa-search"
+              label="Search"
+              single-line
+              outlined
+              dense
+              hide-details
             ></v-text-field>
         </v-col>
        </v-card-title>        
@@ -30,7 +30,7 @@
                   </v-toolbar-title>
                 </v-toolbar>
               <div class="px-8 elevation py-2  mr-4">
-                  <v-text-field  align='left' :readonly='readonly' label="Id niveau"   v-model='idNiveau' prepend-icon='fas fa-folder-open'/>
+                  <v-text-field  align='left' readonly=true label="Id niveau"   v-model='id_niveau' prepend-icon='fas fa-folder-open'/>
                   <v-text-field align='right' label="Nom niveau" v-model='nomNiveau' prepend-icon='fas fa-home' class="mb-2"/>
                   <v-btn color='cyan' outlined class="  rounded-pill white--text mr-4 my-4 col-6 " center @click="AddorUpdate" >
                     <span class="text-capitalize" align='center'>{{Textbtn}}</span>
@@ -59,20 +59,20 @@
             </div>
         </v-col>
       </v-row>
-     <!-- <deleteDialog  ref="deleteModal" @confirm='deleteNiveau' title='Supprimer le niveau' :message='deleteMessage'  ></deleteDialog>
-      <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage> -->
+     <deleteDialog  ref="deleteModal" @confirm='deleteNiveau' title='Supprimer le niveau' :message='deleteMessage'  ></deleteDialog>
+      <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage>
   </div>
   </div>
 </template>
 <script >
-//    import deleteDialog from '../components/Delete'
-//    import alertMessage from '../components/alertMessage'
+   import deleteDialog from '../../components/Delete'
+   import alertMessage from '../../components/alertMessage'
    import niveauService  from '../../services/niveauService'
 
 export default{ name : "pageDomaine",
   components :{
-//    deleteDialog,
-//    alertMessage,
+   deleteDialog,
+   alertMessage,
    },
     data () {
         return{
@@ -85,7 +85,7 @@ export default{ name : "pageDomaine",
           readonly : false,
          Textbtn : 'Enregistrer',
           show : '',
-         idNiveau : '',
+         id_niveau : '',
          nomNiveau :'',
          search:'',
          totalNiveau :0,
@@ -95,7 +95,7 @@ export default{ name : "pageDomaine",
         Niveau :[],
         header :[
             {text:'Id niveau',value:'id_niveau'},
-            {text:'Nom niveau',value:'nom_niveau'},
+            {text:'Nom niveau',value:'libelle_niveau'},
             {text: 'Actions',value: 'action',sortable:false,groupable:false}
            ],
                    
@@ -113,14 +113,22 @@ export default{ name : "pageDomaine",
  ,mounted () {
      this.getDataFromApi()
       },
-  methods: {  
+  methods: { 
+    getMax(){
+      if (this.Niveau.length<= 0){
+            this.id_niveau= '1'
+        }else {
+            var max  = this.Niveau[this.Niveau.length - 1].id_niveau
+        }
+        const num = parseInt(max)+1
+        this.id_niveau= num
+    }, 
     alert(){
-    //  this.$refs.alert.openAlert()
+     this.$refs.alert.openAlert()
    },
      async register () {
           await niveauService.register({
-            id_niveau: this.idNiveau,
-            nom_niveau: this.nomNiveau.toUpperCase()
+            libelle_niveau: this.nomNiveau.toUpperCase()
             }).then(response=>{
               this.loading = true 
               if(response.data.success){
@@ -150,7 +158,7 @@ export default{ name : "pageDomaine",
          this.Textbtn= 'Modifier'
          this.readonly = true
          this.title = `Modification du pays n° ${data.id_niveau}`       
-         this.idNiveau= data.id_niveau,
+         this.id_niveau= data.id_niveau,
          this.nomNiveau = data.nom_niveau
      },
      async update ( ){
@@ -159,7 +167,7 @@ export default{ name : "pageDomaine",
             nom_niveau: this.nomNiveau.toUpperCase(),
            },
             where: {
-               id_niveau: this.idNiveau
+               id_niveau: this.id_niveau
             }
           }).then(response=>{
              if(response.data.success){
@@ -196,7 +204,7 @@ export default{ name : "pageDomaine",
         
      },
      clearForm () {
-         this.idNiveau = ''
+         this.id_niveau = ''
          this.readonly = false
          this.nomNiveau = ''   
         this.Textbtn='Enregistrer'
@@ -204,7 +212,8 @@ export default{ name : "pageDomaine",
     async getDataFromApi () {
            const response = await niveauService.getAll()
           //console.log(response.data.niveau)
-          this.Niveau = response.data.niveau
+          this.Niveau = response.data.Niveau
+          this.getMax()
           
         },
        async deleteNiveau(){
@@ -231,12 +240,12 @@ export default{ name : "pageDomaine",
           
     },
     selectTodelete(data){
-    //    this.$refs.deleteModal.openDialog()
+       this.$refs.deleteModal.openDialog()
        this.deleteMessage = `Voulez vous supprimer le niveau ${data.nom_niveau} qui a un id ${data.id_niveau}?`
        this.delSelected = data.id_niveau
      },
      closeModal(){
-    //    this.$refs.deleteModal.closeDialog()
+       this.$refs.deleteModal.closeDialog()
        this.delSelected = []
        this.selected =  []
      }

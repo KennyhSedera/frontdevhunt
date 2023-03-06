@@ -1,13 +1,13 @@
 <template>
-    <div class="pt-6  ma-4" >   
-      <div class="text-xl-h1 text-lg-h2 text-md-h3  text-h4 text-sm-h3  blue--text font-weight-black"> <span class="grey--text">M</span>atieres</div>  
+    <div class="pt-2  ma-4" >   
       <div>
-      <v-card class="my-4 pa-5">
+      <v-card class="my-2 pa-5">
        <v-card-title >
-            <v-spacer></v-spacer>
-                <v-col>
+            <div class="text-xl-h1 text-lg-h2 text-md-h3  text-h4 text-sm-h3  blue--text font-weight-black"> <span class="grey--text">M</span>atieres</div>  
+              <v-spacer></v-spacer>
+                <v-col class=" col-xl-4 col-lg-4 col-md-4 col-sm-5 ">
                     <v-text-field
-                    class='mb-8 rounded-pill col-9 col-xl-4 col-lg-4 col-md-4 col-sm-5 '
+                    class='mb-2 rounded-pill col-12'
                         v-model="search"
                         append-icon="fas fa-search"
                         label="Search"
@@ -29,7 +29,7 @@
                   </v-toolbar-title>
                 </v-toolbar>
               <div class="px-8 elevation py-2  mr-4">
-                  <v-text-field  align='left' :readonly='readonly' label="Id matiere"   v-model='idMatiere' prepend-icon='fas fa-folder-open'/>
+                  <v-text-field  align='left' readonly=true label="Id matiere"   v-model='id_matiere' prepend-icon='fas fa-folder-open'/>
                   <v-text-field align='right' label="Nom matiere" v-model='nomMatiere' prepend-icon='fas fa-home' class="mb-2"/>
                   <v-btn color='cyan' outlined class="  rounded-pill white--text mr-4 my-4 col-6 " center @click="AddorUpdate" >
                     <span class="text-capitalize" align='center'>{{Textbtn}}</span>
@@ -58,20 +58,20 @@
             </div>
         </v-col>
       </v-row>
-     <!-- <deleteDialog  ref="deleteModal" @confirm='deleteMatiere' title='Supprimer le matiere' :message='deleteMessage'  ></deleteDialog>
-      <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage> -->
+     <deleteDialog  ref="deleteModal" @confirm='deleteMatiere' title='Supprimer le matiere' :message='deleteMessage'  ></deleteDialog>
+      <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage>
   </div>
   </div>
 </template>
 <script >
-//    import deleteDialog from '../components/Delete'
-//    import alertMessage from '../components/alertMessage'
+   import deleteDialog from '../../components/Delete'
+   import alertMessage from '../../components/alertMessage'
    import matiereService  from '../../services/matiereService'
 
 export default{ name : "pageDomaine",
   components :{
-//    deleteDialog,
-//    alertMessage,
+   deleteDialog,
+   alertMessage,
    },
     data () {
         return{
@@ -84,7 +84,7 @@ export default{ name : "pageDomaine",
           readonly : false,
          Textbtn : 'Enregistrer',
           show : '',
-         idMatiere : '',
+         id_matiere : '',
          nomMatiere :'',
          search:'',
          totalMatiere :0,
@@ -112,13 +112,21 @@ export default{ name : "pageDomaine",
  ,mounted () {
      this.getDataFromApi()
       },
-  methods: {  
+  methods: { 
+    getMax(){
+      if (this.Matiere.length<= 0){
+            this.id_matiere= '1'
+        }else {
+            var max  = this.Matiere[this.Matiere.length - 1].id_matiere
+        }
+        const num = parseInt(max)+1
+        this.id_matiere= num
+    }, 
     alert(){
-    //  this.$refs.alert.openAlert()
+     this.$refs.alert.openAlert()
    },
      async register () {
           await matiereService.register({
-            id_matiere: this.idMatiere,
             nom_matiere: this.nomMatiere.toUpperCase()
             }).then(response=>{
               this.loading = true 
@@ -149,7 +157,7 @@ export default{ name : "pageDomaine",
          this.Textbtn= 'Modifier'
          this.readonly = true
          this.title = `Modification du pays n° ${data.id_matiere}`       
-         this.idMatiere= data.id_matiere,
+         this.id_matiere= data.id_matiere,
          this.nomMatiere = data.nom_matiere
      },
      async update ( ){
@@ -158,7 +166,7 @@ export default{ name : "pageDomaine",
             nom_matiere: this.nomMatiere.toUpperCase(),
            },
             where: {
-               id_matiere: this.idMatiere
+               id_matiere: this.id_matiere
             }
           }).then(response=>{
              if(response.data.success){
@@ -195,7 +203,7 @@ export default{ name : "pageDomaine",
         
      },
      clearForm () {
-         this.idMatiere = ''
+         this.id_matiere = ''
          this.readonly = false
          this.nomMatiere = ''   
         this.Textbtn='Enregistrer'
@@ -203,7 +211,8 @@ export default{ name : "pageDomaine",
     async getDataFromApi () {
            const response = await matiereService.getAll()
           //console.log(response.data.matiere)
-          this.Matiere = response.data.matiere
+          this.Matiere = response.data.Matiere
+          this.getMax()
           
         },
        async deleteMatiere(){
@@ -230,12 +239,12 @@ export default{ name : "pageDomaine",
           
     },
     selectTodelete(data){
-    //    this.$refs.deleteModal.openDialog()
+       this.$refs.deleteModal.openDialog()
        this.deleteMessage = `Voulez vous supprimer le matiere ${data.nom_matiere} qui a un id ${data.id_matiere}?`
        this.delSelected = data.id_matiere
      },
      closeModal(){
-    //    this.$refs.deleteModal.closeDialog()
+       this.$refs.deleteModal.closeDialog()
        this.delSelected = []
        this.selected =  []
      }

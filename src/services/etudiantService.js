@@ -22,8 +22,5 @@ return Api().get('beforeUpdate/'+id)
 beforeCreate (id) {
 return Api().get('beforeCreate/'+id)
 },
-beforeCreate () {
-return Api().post('signin')
-},
 
 }
