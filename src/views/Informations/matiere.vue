@@ -66,7 +66,7 @@
 <script >
 //    import deleteDialog from '../components/Delete'
 //    import alertMessage from '../components/alertMessage'
-   import matiereService  from '../services/matiereService'
+   import matiereService  from '../../services/matiereService'
 
 export default{ name : "pageDomaine",
   components :{

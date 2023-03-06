@@ -66,7 +66,7 @@
 <script >
 //    import deleteDialog from '../components/Delete'
 //    import alertMessage from '../components/alertMessage'
-   import parcourService  from '../services/parcourService'
+   import parcourService  from '../../services/parcourService'
 
 export default{ name : "pageDomaine",
   components :{

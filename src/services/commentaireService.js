@@ -7,11 +7,17 @@ export default {
    delete (data) {
        return Api().delete('commentaire/'+data)
        }, 
-   update (data) {
-       return Api().put('commentaire', data)
+   update (data, id) {
+       return Api().put('commentaire/'+id, data)
        },
-   getAll () {
-       return Api().get('commentaire')
-       }
+   getAll (id) {
+       return Api().get('commentaire/'+id)
+       },
+   getOne (id) {
+       return Api().get('commentaire/'+id)
+       },
+   countCommentaire (id) {
+       return Api().get('countCommentaire/'+id)
+       },
     
      }

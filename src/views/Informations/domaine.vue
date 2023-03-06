@@ -67,7 +67,7 @@
 <script >
 //    import deleteDialog from '../components/Delete'
 //    import alertMessage from '../components/alertMessage'
-   import domaineService  from '../services/domaineService'
+   import domaineService  from '../../services/domaineService'
 
 export default{ name : "pageDomaine",
   components :{
@@ -204,7 +204,7 @@ export default{ name : "pageDomaine",
     async getDataFromApi () {
            const response = await domaineService.getAll()
           //console.log(response.data.domaine)
-          this.Domaine = response.data.domaine
+          this.Domaine = response.data.Domaine
           
         },
        async deleteDomaine(){
