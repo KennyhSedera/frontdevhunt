@@ -59,20 +59,20 @@
             </div>
         </v-col>
       </v-row>
-     <!-- <deleteDialog  ref="deleteModal" @confirm='deleteDomaine' title='Supprimer un domaine' :message='deleteMessage'  ></deleteDialog>
-      <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage> -->
+     <deleteDialog  ref="deleteModal" @confirm='deleteDomaine' title='Supprimer un domaine' :message='deleteMessage'  ></deleteDialog>
+      <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage>
   </div>
   </div>
 </template>
 <script >
-//    import deleteDialog from '../components/Delete'
-//    import alertMessage from '../components/alertMessage'
-   import domaineService  from '../services/domaineService'
+   import deleteDialog from '../../components/Delete'
+   import alertMessage from '../../components/alertMessage'
+   import domaineService  from '../../services/domaineService'
 
 export default{ name : "pageDomaine",
   components :{
-//    deleteDialog,
-//    alertMessage,
+   deleteDialog,
+   alertMessage,
    },
     data () {
         return{
@@ -115,7 +115,7 @@ export default{ name : "pageDomaine",
       },
   methods: {  
     alert(){
-    //  this.$refs.alert.openAlert()
+     this.$refs.alert.openAlert()
    },
      async register () {
           await domaineService.register({

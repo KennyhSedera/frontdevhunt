@@ -58,20 +58,20 @@
             </div>
         </v-col>
       </v-row>
-     <!-- <deleteDialog  ref="deleteModal" @confirm='deleteParcour' title='Supprimer le parcour' :message='deleteMessage'  ></deleteDialog>
-      <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage> -->
+      <deleteDialog  ref="deleteModal" @confirm='deleteParcour' title='Supprimer le parcour' :message='deleteMessage'  ></deleteDialog>
+      <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage>
   </div>
   </div>
 </template>
 <script >
-//    import deleteDialog from '../components/Delete'
-//    import alertMessage from '../components/alertMessage'
-   import parcourService  from '../services/parcourService'
+   import deleteDialog from '../../components/Delete'
+   import alertMessage from '../../components/alertMessage'
+   import parcourService  from '../../services/parcourService'
 
 export default{ name : "pageDomaine",
   components :{
-//    deleteDialog,
-//    alertMessage,
+   deleteDialog,
+   alertMessage,
    },
     data () {
         return{
@@ -114,7 +114,7 @@ export default{ name : "pageDomaine",
       },
   methods: {  
     alert(){
-    //  this.$refs.alert.openAlert()
+     this.$refs.alert.openAlert()
    },
      async register () {
           await parcourService.register({
@@ -202,7 +202,7 @@ export default{ name : "pageDomaine",
       },
     async getDataFromApi () {
            const response = await parcourService.getAll()
-          //console.log(response.data.parcour)
+          // console.log(response.data.parcour)
           this.Parcour = response.data.parcour
           
         },
@@ -230,12 +230,12 @@ export default{ name : "pageDomaine",
           
     },
     selectTodelete(data){
-    //    this.$refs.deleteModal.openDialog()
+       this.$refs.deleteModal.openDialog()
        this.deleteMessage = `Voulez vous supprimer le parcour ${data.nom_parcour} qui a un id ${data.id_parcour}?`
        this.delSelected = data.id_parcour
      },
      closeModal(){
-    //    this.$refs.deleteModal.closeDialog()
+       this.$refs.deleteModal.closeDialog()
        this.delSelected = []
        this.selected =  []
      }

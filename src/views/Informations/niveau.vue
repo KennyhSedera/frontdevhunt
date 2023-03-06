@@ -59,20 +59,20 @@
             </div>
         </v-col>
       </v-row>
-     <!-- <deleteDialog  ref="deleteModal" @confirm='deleteNiveau' title='Supprimer le niveau' :message='deleteMessage'  ></deleteDialog>
-      <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage> -->
+     <deleteDialog  ref="deleteModal" @confirm='deleteNiveau' title='Supprimer le niveau' :message='deleteMessage'  ></deleteDialog>
+      <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage>
   </div>
   </div>
 </template>
 <script >
-//    import deleteDialog from '../components/Delete'
-//    import alertMessage from '../components/alertMessage'
-   import niveauService  from '../services/niveauService'
+   import deleteDialog from '../../components/Delete'
+   import alertMessage from '../../components/alertMessage'
+   import niveauService  from '../../services/niveauService'
 
 export default{ name : "pageDomaine",
   components :{
-//    deleteDialog,
-//    alertMessage,
+   deleteDialog,
+   alertMessage,
    },
     data () {
         return{

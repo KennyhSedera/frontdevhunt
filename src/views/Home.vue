@@ -42,7 +42,7 @@
   <v-container class="fill-width  overflow-auto absolute  my-8" :height="1000">
      <v-row justify="space-between" no-gutters class="fill-height fill-width grey lighten-2 my-4 px-8  pb-8 rounded ">
       <cardHover  v-for="domaine,i in Domaines" :key="i" width="30%">
-          <v-card slot="card" @click="$router.push('')"
+          <v-card slot="card" @click="$router.push('/publication')"
           :class="`rounded pa-4 blue lighten-4   mt-n14 absolute`" :height="400">
             <div class="font-weight-bold my-2 py-2 text-h5 ">{{domaine.name}}</div> 
             <v-img src="web image/background_image (3).jpg" height="60%" class=""></v-img>
@@ -54,7 +54,7 @@
     </v-row>
     <v-row no-gutters class="grey lighten-4 py-4 px-8 my-4 fill-width" >
       <div class="fill-width col-12">
-        <div class="font-weight-medium grey--text ">Top publications</div><br>
+        <div class="font-weight-black grey--text ">Top publications</div><br>
        <v-row no-gutters class="fill-width" justify="space-between">
         <card-hover cssClass="col-2" v-for="j in 4" :key="j">
           <v-card slot="card" :height="150" class="blue lighten-4 px-4">
@@ -66,13 +66,23 @@
         
       </div>
     </v-row>
-    <v-row no-gutters class="grey lighten-4 py-8 px-8 my-4 fill-width" justify="space-between">
-      <v-row justify="space-between" class="col-6 ">
-        <div v-for="j in 2" :key="j" :height="70" class="blue col-5 lighten-4 px-4">
-           Partenariat
-      </div>
-      </v-row>
-      <div class="col-6  row  pa-4 white rounded">
+    <v-row no-gutters  :height="400" class="grey lighten-4 py-4 px-8 my-4 fill-height" justify="space-between">
+        <v-row no-gutters class="col-9">
+          <div class="col-12 fill-height">
+          <div class="grey--text text-title ma-2 font-weight-black">Partenariat de l'Eni</div>
+            <v-row no-gutters justify="space-between" class="fill-height">
+            <cardHover v-for="j in 3" :key="j" cssClass="blue col-3 fill-height lighten-4 px-4">
+              <div slot="card"    >
+                    <div class="py-2">Partenariat</div>
+                    <div>
+                      <v-image src="admin.jpg"></v-image>
+                    </div>
+              </div>
+            </cardHover>
+            </v-row>
+          </div>
+       </v-row>
+      <div class="col-3  row  pa-4 white rounded">
           <div v-for="a in 4" :key="a" class="col-3">
             <v-avatar size="60" class="mx-4">
               <v-img src="admin.jpg"/>
