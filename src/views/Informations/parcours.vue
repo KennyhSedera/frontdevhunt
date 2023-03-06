@@ -60,7 +60,7 @@
         </v-col>
       </v-row>
      <deleteDialog  ref="deleteModal" @confirm='deleteParcour' title='Supprimer le parcour' :message='deleteMessage'  ></deleteDialog>
-      <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage>
+     <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage>
   </div>
   </div>
 </template>
@@ -214,8 +214,7 @@ export default{ name : "pageDomaine",
           //console.log(response.data.parcour)
           this.Parcour = response.data.Parcours
           this.getMax()
-          
-        },
+     },
        async deleteParcour(){
       await parcourService.delete(this.delSelected)
             .then(response => {

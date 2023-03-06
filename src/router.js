@@ -17,6 +17,7 @@ import Matiere from './views/Informations/matiere.vue'
 import Niveau from './views/Informations/niveau.vue'
 import Parcour from './views/Informations/parcour.vue'
 
+>>>>>>> 270881744082996834af54bb997f1da908102a7c
 Vue.use(Router)
 
 
@@ -40,6 +41,14 @@ const router = new Router({
       component: Publication
     },
     {
+      path: '/admin/gerer/matiere',
+      name: 'Matiere',
+      meta: {
+        title: 'Matiere'
+      },
+      component: Matiere
+    },
+    {
       path: '/admin/gerer/domaines',
       name: 'Domaine',
       meta: {
@@ -54,7 +63,7 @@ const router = new Router({
         title: 'Matiere'
       },
       component: Matiere
-    },
+   },
     {
       path: '/admin/gerer/niveau',
       name: 'Niveau',
@@ -72,7 +81,7 @@ const router = new Router({
       component: Parcour
     },
     {
-      path: '/dashboard',
+    path: '/dashboard',
       name: 'Dashboard',
       meta: {
         title: 'Bilan'

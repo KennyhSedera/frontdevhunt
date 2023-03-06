@@ -29,8 +29,7 @@
                   </v-img>
               </div>
               <image-slider v-else :items="items.image_url" ></image-slider>
-              {{items.image_url.join()}}
-            </v-row> 
+             </v-row> 
            </v-col> 
       </v-row>
      </div> 
