@@ -1,12 +1,10 @@
 <template>
     <div>
-        <v-select
+        <v-autocomplete
             v-model="domaine"
             :items="items"
-            solo
-            class="grey rounded-pill"
-            prepend-inner-icon="mdi-clipboard-list"
-            label="Libellé domaine"
+            class="rounded-pill"
+            outlined
             placeholder="libellé domaine"
             item-value="id_domaine"
             item-text="nom_domaine"
@@ -31,7 +29,7 @@
                 </v-list-item-content>
             </template>
             </template>
-        </v-select>
+        </v-autocomplete>
     </div>
 </template>
 <script>

@@ -1,12 +1,11 @@
 <template>
     <div>
-        <v-select
+        <v-autocomplete
             v-model="matiere"
             :items="items"
-            solo
-            class="grey rounded-pill"
-            prepend-inner-icon="mdi-clipboard-list"
-            label="Nom matiere"
+            outlined
+            class="rounded-pill"
+            multiple
             placeholder="Nom matiere"
             item-value="id_matiere"
             item-text="nom_matiere"
@@ -31,7 +30,7 @@
                 </v-list-item-content>
             </template>
             </template>
-        </v-select>
+        </v-autocomplete>
     </div>
 </template>
 <script>

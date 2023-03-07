@@ -1,9 +1,9 @@
 <template>
     <div>
-        <v-select
+        <v-autocomplete
             v-model="niveau"
             :items="items"
-            solo
+            outlined
             class="grey rounded-pill"
             prepend-inner-icon="mdi-clipboard-list"
             label="Libellé niveau"
@@ -31,7 +31,7 @@
                 </v-list-item-content>
             </template>
             </template>
-        </v-select>
+        </v-autocomplete>
     </div>
 </template>
 <script>

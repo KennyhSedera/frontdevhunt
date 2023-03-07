@@ -19,7 +19,7 @@
                 <v-btn class="mt-4 text-none">Publier</v-btn> 
                  <v-row justify="center" class="blue" width="200" height="200">
                     <div class="red">
-                        <v-img  src="logo.jpg"></v-img>
+                        <v-img  src="admin.jpg"></v-img>
                     </div> 
                 </v-row> 
                </div>

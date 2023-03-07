@@ -1,10 +1,10 @@
 <template>
     <div>
-        <v-select
+        <v-autocomplete
             v-model="parcours"
             :items="items"
-            solo
-            class="grey rounded-pill"
+            class="rounded-pill"
+            outlined
             prepend-inner-icon="mdi-clipboard-list"
             label="Libellé parcours"
             placeholder="Libellé parcours"
@@ -31,7 +31,7 @@
                 </v-list-item-content>
             </template>
             </template>
-        </v-select>
+        </v-autocomplete>
     </div>
 </template>
 <script>
