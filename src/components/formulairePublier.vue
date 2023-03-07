@@ -12,8 +12,8 @@
                 </div>
             <div class="col-5">
                 <v-text-field outlined class="rounded-pill" placeholder="Que publiez-vous?"></v-text-field>
-                <v-text-field outlined class="rounded-pill" placeholder="Quel est la domaine"></v-text-field>
-                <v-text-field outlined class="rounded-pill" placeholder="Queelle matière?"></v-text-field>
+                <domaine-combobox />
+                <matiere-combobox />
             </div>
             <div class=" col-5">
                 <v-btn class="mt-4 text-none">Publier</v-btn> 
@@ -30,10 +30,15 @@
 </template>
 <script>
 import toolTip from '../components/toolTip.vue'
+import domaineCombobox from '../components/comboboxDomaine.vue'
+import matiereCombobox from '../components/comboboxMatiere.vue'
+
 export default {
     name:'formPublication',
     components:{
-        toolTip
+        toolTip, 
+        domaineCombobox,
+        matiereCombobox
     }
 }
 </script>
