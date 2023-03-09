@@ -5,7 +5,7 @@ export default {
          return Api().post('register', data)
          },
     login (data) {
-      return Api().post('login',data)
+      return Api().post('signin',data)
     },
     delete (data) {
         return Api().delete('user', data)

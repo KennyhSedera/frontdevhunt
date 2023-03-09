@@ -68,7 +68,7 @@
                                     </v-avatar>
                                         
                                    <v-btn absolute  icon class="ml-n6 mt-16 mb-n9">
-                                        <v-file-input v-model="img"  @change="changeProfilImg" @click="utilisateur=user.id_user"  hide-input prepend-icon="fas fa-camera"></v-file-input>
+                                        <v-file-input class="mt-n3 ml-2" v-model="img"  @change="changeProfilImg" @click="utilisateur=user.id_user"  hide-input prepend-icon="fas fa-camera"></v-file-input>
                                     </v-btn>
                                     <v-progress-linear v-if="progress && utilisateur===user.id_user" :value="progress"></v-progress-linear>
                                     <div class="mt-1 mb-4">
@@ -198,16 +198,20 @@ import EtudiantService from  '@/services/etudiantService'
              this.users = this.userCopy.filter(d => d.status_user===true )
          } 
       },
+      
      navigateTo (route) {
          this.$router.push(route)
        
         },
+
     setIcon(user){
           return user.status_user ? 'fas fa-user-times': 'fas fa-user'
       },
+
       openDialog(){
           this.$refs.form.openDialog()
       },
+
     displayData(data){
         this.show = true
         this.$refs.form.dispalayData(data)
