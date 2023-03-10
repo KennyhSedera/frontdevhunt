@@ -60,12 +60,10 @@
                     :search="search"
                     class="elevation-4 black--text mb-4 fill-height"
                 >
-                   <template v-slot:item[`annee1`]="{ item }">
-                    <v-chip
-                      color="red"
-                    >
-                      {{ item.annee1 }}
-                    </v-chip>
+                   <template v-slot:item[`annee`]="{ item }">
+                    <span>
+                      {{ item.annee1 }} - {{ item.annee2 }}
+                    </span>
                   </template>
                     <template v-slot:item[`action`]="{ item }">
                     <v-icon color='blue' class='ma-2' small @click='displayData(item)' >fas fa-edit</v-icon>
