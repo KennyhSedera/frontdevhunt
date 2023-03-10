@@ -3,11 +3,12 @@
       <div>
       <v-card class="my-2 pa-5">
        <v-card-title >
-          <div class="text-xl-h1 text-lg-h2 text-md-h3  text-h4 text-sm-h3  blue--text font-weight-black"> <span class="grey--text">D</span>omaines</div>  
+          <div class="text-xl-h1 text-lg-h2 text-md-h3  text-h4 text-sm-h3  blue--text font-weight-black"> <span class="grey--text">A</span>nnée 
+             <span class="grey--text">U</span>niversitaire</div>  
             <v-spacer></v-spacer>
            <v-col class=" col-xl-4 col-lg-4 col-md-4 col-sm-5">
             <v-text-field
-            class='mb-2 rounded-pill col-12 '
+                class='rounded-pill col-12 '
                 v-model="search"
                 append-icon="fas fa-search"
                 label="Search"
@@ -30,8 +31,16 @@
                   </v-toolbar-title>
                 </v-toolbar>
               <div class="px-8 elevation py-2  mr-4">
-                  <v-text-field  align='left' readonly=true label="Id domaine"    v-model='id_domaine' prepend-icon='fas fa-folder-open'/>
-                  <v-text-field align='right' label="Nom domaine" v-model='nomDomaine' prepend-icon='fas fa-home' class="mb-2"/>
+                  <v-text-field  align='left' readonly=true label="Id Annee"    v-model='id_annee' prepend-icon='fas fa-folder-open'/> 
+                  <v-row>
+                    <v-icon class="mx-4">fa-calendar</v-icon>
+                    <div style="max-width: 200px">
+                        <v-otp-input
+                            v-model="nomAnnee"
+                            :length="length"
+                        ></v-otp-input>
+                        </div>
+                    </v-row>
                   <v-btn color='cyan' outlined class="  rounded-pill white--text mr-4 my-4 col-6 " center @click="AddorUpdate" >
                     <span class="text-capitalize" align='center'>{{Textbtn}}</span>
                   </v-btn>
@@ -46,11 +55,16 @@
            <div  class=" mb-8  pb-4 fill-height" >
                 <v-data-table 
                     :headers='header'
-                    :items="Domaine"
+                    :items="Annee"
                     :loading='loading'
                     :search="search"
                     class="elevation-4 black--text mb-4 fill-height"
                 >
+                   <template v-slot:item[`annee`]="{ item }">
+                    <span>
+                      {{ item.annee1 }} - {{ item.annee2 }}
+                    </span>
+                  </template>
                     <template v-slot:item[`action`]="{ item }">
                     <v-icon color='blue' class='ma-2' small @click='displayData(item)' >fas fa-edit</v-icon>
                     <v-icon color='red' small  class='ma-2' @click='selectTodelete(item)'>fas fa-trash</v-icon>
@@ -59,7 +73,7 @@
             </div>
         </v-col>
       </v-row>
-     <deleteDialog  ref="deleteModal" @confirm='deleteDomaine' title='Supprimer un domaine' :message='deleteMessage'  ></deleteDialog>
+     <deleteDialog  ref="deleteModal" @confirm='deleteAnnee' title='Supprimer un Annee' :message='deleteMessage'  ></deleteDialog>
       <alertMessage ref='alert' :types='alertType' :message='message'></alertMessage>
   </div>
   </div>
@@ -67,40 +81,41 @@
 <script >
    import deleteDialog from '../../components/Delete'
    import alertMessage from '../../components/alertMessage'
-   import domaineService  from '../../services/domaineService'
+   import anneeunivService  from '../../services/anneeunivService'
 
-export default{ name : "pageDomaine",
+export default{ name : "pageAnnee",
   components :{
    deleteDialog,
    alertMessage,
    },
     data () {
         return{
-          valid : false,
-          selected: [],
-         delSelected:[],
-         alertType :'success',
-         deleteMessage : '' ,
-        message:'',
-          readonly : false,
-         Textbtn : 'Enregistrer',
-          show : '',
-         id_domaine : '',
-         nomDomaine :'',
-         search:'',
-         totalDomaine :0,
-         loading: false,
-        options: {},
-        titre:'',
-        Domaine :[],
-        header :[
-            {text:'Id domaine',value:'id_domaine'},
-            {text:'Nom domaine',value:'nom_domaine'},
-            {text: 'Actions',value: 'action',sortable:false,groupable:false}
-           ],
-                   
-    }
- },
+            valid : false,
+            selected: [],
+            delSelected:[],
+            alertType :'success',
+            deleteMessage : '' ,
+            message:'',
+            readonly : false,
+            Textbtn : 'Enregistrer',
+            show : '',
+            id_annee : '',
+            nomAnnee :'',
+            search:'',
+            totalAnnee :0,
+            loading: false,
+            options: {},
+            titre:'',
+            length: 4,
+            Annee :[],
+            header :[
+                {text:'Id Annee',value:'id_annee'},
+                {text:'Annee',value:'annee1'},
+                {text:'Annee',value:'annee2'},
+                {text: 'Actions',value: 'action',sortable:false,groupable:false}
+            ],         
+        }
+    },
   watch: {
       options: {
         handler () {
@@ -115,20 +130,25 @@ export default{ name : "pageDomaine",
       },
   methods: {  
     getMax(){
-      if (this.Domaine.length <= 0){
-            this.id_domaine= '1'
+      if (this.Annee.length <= 0){
+            this.id_annee= '1'
         }else {
-            var max  = this.Domaine[this.Domaine.length - 1].id_domaine
+            var max  = this.Annee[this.Annee.length - 1].id_annee
         }
         const num = parseInt(max)+1
-        this.id_domaine= num
+        this.id_annee= num
     },
     alert(){
      this.$refs.alert.openAlert()
    },
      async register () {
-          await domaineService.register({
-            nom_domaine: this.nomDomaine.toUpperCase()
+        const an = this.nomAnnee
+        const annee2 = parseInt(an)+1
+        console.log(annee2)
+          await anneeunivService.register({
+            id_annee: this.id_annee,
+            annee1: this.nomAnnee.toUpperCase(),
+            annee2: annee2
             }).then(response=>{
               this.loading = true 
               if(response.data.success){
@@ -157,17 +177,17 @@ export default{ name : "pageDomaine",
       displayData(data){
          this.Textbtn= 'Modifier'
          this.readonly = true
-         this.title = `Modification du pays n° ${data.id_domaine}`       
-         this.id_domaine= data.id_domaine,
-         this.nomDomaine = data.nom_domaine
+         this.title = `Modification du pays n° ${data.id_annee}`       
+         this.id_annee= data.id_annee,
+         this.nomAnnee = data.annee1
      },
      async update ( ){
-       await domaineService.update({
+       await anneeunivService.update({
            data: {
-            nom_domaine: this.nomDomaine.toUpperCase(),
+            annee1: this.nomAnnee.toUpperCase(),
            },
             where: {
-               id_domaine: this.id_domaine
+               id_annee: this.id_annee
             }
           }).then(response=>{
              if(response.data.success){
@@ -204,20 +224,20 @@ export default{ name : "pageDomaine",
         
      },
      clearForm () {
-         this.id_domaine = ''
+         this.id_annee = ''
          this.readonly = false
-         this.nomDomaine = ''   
+         this.nomAnnee = ''   
         this.Textbtn='Enregistrer'
       },
     async getDataFromApi () {
-           const response = await domaineService.getAll()
-          //console.log(response.data.domaine)
-          this.Domaine = response.data.Domaine
+           const response = await anneeunivService.getAll()
+          //console.log(response.data.Annee)
+          this.Annee = response.data.Anneeuniv
           this.getMax()
           
         },
-       async deleteDomaine(){
-      await domaineService.delete(this.delSelected)
+       async deleteAnnee(){
+      await anneeunivService.delete(this.delSelected)
             .then(response => {
              if(response.data.success){
                   this.alert()
@@ -241,8 +261,8 @@ export default{ name : "pageDomaine",
     },
     selectTodelete(data){
        this.$refs.deleteModal.openDialog()
-       this.deleteMessage = `Voulez vous supprimer le domaine ${data.nom_domaine} qui a un id ${data.id_domaine}?`
-       this.delSelected = data.id_domaine
+       this.deleteMessage = `Voulez vous supprimer le Annee ${data.annee1} qui a un id ${data.id_annee}?`
+       this.delSelected = data.id_annee
      },
      closeModal(){
        this.$refs.deleteModal.closeDialog()

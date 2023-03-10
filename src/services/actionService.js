@@ -17,4 +17,4 @@ export default {
         return Api().get('action/'+idaction)
     }
     
-     }
+}

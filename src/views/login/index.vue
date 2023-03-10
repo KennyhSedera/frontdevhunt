@@ -1,8 +1,8 @@
 <template>
-<v-card class="" >
-    <v-img  :cover='true' src='caroussel (2).jpg.jpg' class="">
-      <v-container fluid class="">
-          <v-card transition='fade-transition' class="mx-auto mt-16  elevation-24 rounded-lg" max-width='800px'>
+<v-card class="fill-height" >
+    <v-img  :cover='true' src='Caroussel/caroussel (2).jpg' class=" fill-height">
+      <v-container fluid class="fill-height">
+          <v-card transition='fade-transition' class="mx-auto my-6  elevation-24 rounded-lg" max-width='800px'>
             <v-progress-linear
               :active="loading"
               :indeterminate="loading"
@@ -171,7 +171,7 @@ export default {
                 if(navigator.appVersion.indexOf('Linux')>-1) osName = 'Linux'
                 if(navigator.appVersion.indexOf('like Mac')>-1) osName = 'iOS'
                historiqueService.addHistoriqueCnx({
-                  id_user: response.data.user.id_user,
+                  id_user: response.data.Etudiant.id_user,
                   connected_at:moment().format('YYYY-MM-DD HH:mm:ss'),
                   browser_type: navigator.userAgent,
                   system_type : osName,
@@ -179,7 +179,7 @@ export default {
                   localisation:position,
                   deconnected_at:null
                 }) 
-                  var user = response.data.user
+                  var user = response.data.Etudiant
                    user.connected_at = moment().format('YYYY-MM-DD HH:mm:ss')
 
                    this.$store.dispatch('setToken',response.data.token)

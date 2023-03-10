@@ -15,7 +15,8 @@ import Publication from './views/Publication/pagePublication.vue'
 import Domaine from './views/Informations/domaine.vue'
 import Matiere from './views/Informations/matiere.vue'
 import Niveau from './views/Informations/niveau.vue'
-import Parcour from './views/Informations/parcours.vue'
+import Parcour from './views/Informations/parcours.vue' 
+import Annee from './views/Informations/annee_unniv.vue'
 
 Vue.use(Router)
 
@@ -38,6 +39,21 @@ const router = new Router({
         title: 'Publication'
       },
       component: Publication
+    },
+    {path: '/admin/gerer/matiere',
+      name: 'Matiere',
+      meta: {
+        title: 'Matiere'
+      },
+      component: Matiere
+    },
+    {
+      path: '/admin/gerer/annee-univ',
+      name: 'Annee',
+      meta: {
+        title: 'Annee'
+      },
+      component: Annee
     },
     {
       path: '/admin/gerer/domaines',
