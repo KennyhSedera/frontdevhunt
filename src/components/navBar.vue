@@ -10,16 +10,16 @@
              <v-menu
                 class="mt-4 full-screen elevation-2"
                 bottom left
-                v-model="menu"
                 :close-on-content-click="false"
                 rounded='lg'
                 offset-y
                 transition="slide-y-transition"
-                v-for="(badge, i ) in badges " :key='i' >
+                v-for="badge, i in badges " :key='i'
+                v-model="badge.model" >
              <template v-slot:activator="{on,attrs}">
                    <v-badge 
-                        v-if="badge.unseen >0"
-                        :content='badge.unseen'
+                       v-if="i===0 ?unseenMessage>0 : unseenNotif>0"
+                        :content='getContent(i)'
                         color='error'
                         border='left'
                         colored-border
@@ -28,12 +28,12 @@
                         x-small
                         class='mx-2 pointer'
                         >
-                    <v-icon v-on="on" v-bind="attrs">{{badge.icon}}</v-icon>
+                    <v-icon 
+                        v-on="on" v-bind="attrs">{{badge.icon}}</v-icon>
                 </v-badge>
-                <v-icon v-if="badge.unseen=== 0" v-on="on" v-bind="attrs" >{{badge.icon}}</v-icon>
+                <v-icon class='mx-2 pointer' v-if="i===0 ?unseenMessage<=0 : unseenNotif<=0" v-on="on" v-bind="attrs" >{{badge.icon}}</v-icon>
              </template>
-             <Notification :notifications="badges[1].items" v-if='i==1' />
-             <Message :messages="badges[0].items" v-else/>
+                <component :is="badge.component" :items='badge.items'></component>
              </v-menu>
             <v-menu
                 class="ml-8"
@@ -172,28 +172,28 @@ import pageLoader from '../components/pageLoader'
 import server from  '../services/server.config'
 import Notification from '../components/notification'
 import Message from '../components/MessageListe'
+import {mapGetters} from 'vuex'
 
 export default {
     name: 'navBar',
     components: {
-        pageLoader,
-        Notification,
-        Message
+        pageLoader
        },
     data () {
         return {
             server:server.URL,
             clickContent:false,
-            unseenNotif:0,
             menu:false,
             drawer : false,
             badges:[
-                   {
+                  {
                     icon: 'far fa-envelope',
                     title:'Message',
-                    unseen:6,
-                    items:[]
-                  },
+                    component: Message,
+                    items:[],
+                   model:false,
+                   nbr: this.$store.getters.unseenMessage
+                  }, 
                     {
                     icon: 'far fa-bell',
                     title:'Notifications',
@@ -233,9 +233,12 @@ export default {
                             id_user:  1,
                             vu:false}
                             ],
-                          unseen: 0,
+                   component:Notification,
+                   model:false,
+                   nbr: this.$store.getters.unseenNotif
                     
-                    }, 
+                    },
+                     
             ],
             drawers:[
               { text: 'Accueil',icon:'fas fa-home',route:'/accueil' },
@@ -267,8 +270,8 @@ export default {
         }
     },
     computed:{
-       
-    },
+            ...mapGetters(['unseenNotif','unseenMessage'])
+     },
     watch:{
         options: {
         handler () {
@@ -277,6 +280,20 @@ export default {
       },
     },
     methods :{
+        getContent(id){
+           var content = id===0 ? this.unseenMessage : this.unseenNotif
+           return content
+        },
+      getIcon(id){
+       return id ===0 ? this.unseenMessage >0 : this.unseenNotif > 0
+      },
+        setSeen(id){
+            if(id===0){
+                this.$store.dispatch('setNbrMsg',0)
+            }else{
+                 this.$store.dispatch('setNbrNotif',0)
+            }
+        },
     navigateTo (route) {
           if(!this.$store.state.isUserLoggedIn)
            {
@@ -303,9 +320,6 @@ export default {
         }
     },
     mounted(){
-      //  this. badges[0].unseen = this.badges[0].items.filter(elt=> elt.vu=== false).length
-      //  this. badges[1].unseen = this.badges[1].items.filter(elt=> elt.vu=== false).length
-
  }
   }
 </script>

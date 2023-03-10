@@ -21,7 +21,15 @@ export default {
         return{
           contenue:'',
         }
-    }
+    },
+    methods: {
+      getContenue(){
+        return this.contenue
+      },
+      setContenue(value){
+        this.contenue=value
+      }
+    },
 
 }
 </script>

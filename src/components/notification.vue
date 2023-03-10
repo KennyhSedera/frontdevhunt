@@ -1,13 +1,15 @@
 <template>
     <v-list  two-line nav dense  max-height="700px" class="grey lighten-2 full-screen overflow-auto pb-4">
-                  <v-list-item class=" grey lighten-2 py-xl-4 py-lg-4 py-md-2 " >
-                     <v-row >
-                      <v-flex xl3 lg3 md3 sm4  class=''>
-                         <v-icon color="black" class="mx-2">fas fa-bell</v-icon> 
-                         <span class="font-weight-black text-left text-lg-h6 text-md-h5 text-sm-h6 text-xs-h2">Notifications</span> 
+                   <v-list-item class=" grey lighten-2 pt-n8" >
+                     <v-row>
+                      <v-flex xl6 lg6 md6 sm6  class='px-4'>
+                        <v-row>
+                         <v-icon color="black" class="mx-2 col-1">fas fa-bell</v-icon> 
+                         <span class="col-9 font-weight-black text-left text-lg-h6 text-md-h5 text-sm-h6 text-xs-h2">Notifications</span> 
+                       </v-row>
                        </v-flex>
                        <v-spacer></v-spacer>
-                       <v-flex v-if="notifications.length>0" xl3 lg3 md3 sm4  
+                       <v-flex v-if="items.length>0" xl6 lg6 md6 sm6  
                           class="justify-xs-end justify-lg-end justify-xl-end justify-md-end ">
                              <a v-if="unseen > 0 " class="ml-4 text-right text-caption text-sm-body-2 text-md-caption text-lg-subtitle-1  font-weight-regular" @click="setAllSeen">Marquer tous comme lus</a>
                              <a v-else class="ml-4 text-right text-caption text-sm-body-2 text-md-caption text-lg-subtitle-1 font-weight-regular" @click="setAllunSeen">Marquer tous comme non lus</a>
@@ -15,10 +17,10 @@
                     </v-row>
                   </v-list-item>
                    
-                  <v-list-item-group v-if="notifications.length>0">
-                    <template v-for="(item, index) in notifications">
+                  <v-list-item-group v-if="items.length>0">
+                    <template v-for="item, i in items">
                     <v-list-item
-                        :key="index"
+                        :key="i"
                         :class="`${item.vu === null ?'grey lighten-4':'white'}`"
                         link
                         @click="goTo(item)"
@@ -27,19 +29,15 @@
                         <img :src="`${server}${item.profil_image}`" />
                         </v-list-item-avatar>
                     <v-list-item-content>
-                      <!-- <v-list-item-title> -->
-                        <span class="pa-4 text-left text-xl-subtitle-1 text-lg-subtitle-2 text-lg-subtitle-1 text-caption" v-html="action(item)">
-                          
-                        </span>
-                    <!-- </v-list-item-title> -->
-                    <!-- <v-list-item-subtitle> -->
+                        <span class="pa-4 text-left text-xl-subtitle-1 text-lg-subtitle-2 text-lg-subtitle-1 text-caption" 
+                        v-html="action(item)">
+                         </span>
                          <span class="px-4 text-xl-h6 text-left text-xl-body-2 text-lg-body-2 text-md-caption text-sm-caption text-caption">
                            {{setDateFromNow(item.created_at)}}
                         </span> 
-                    <!-- </v-list-item-subtitle> -->
                    </v-list-item-content>   
                 </v-list-item>
-               <v-divider class="black my-1" :key="item.created_at" v-if="index < notifications.length -1"></v-divider>
+               <v-divider class="black my-1" :key="item.created_at" v-if="i < items.length -1"></v-divider>
                 </template>
                   </v-list-item-group>
                   <div v-else class="mx-16">
@@ -58,15 +56,14 @@ export default {
     name:'componentNotif',
  data (){
      return{
-        //  notifications:[]
          server:server.URL,
 
      }
  },
-props:['notifications','unseen'],
+props:['items','unseen'],
  methods:{
     setAllSeen(){
-        this.notifications.forEach(element => {
+        this.items.forEach(element => {
            if( element.vu === null){
              this.seeNotif(element) 
             }
@@ -74,7 +71,7 @@ props:['notifications','unseen'],
          this.getNotification()
     },
     setAllunSeen(){
-        this.notifications.forEach(element => {
+        this.items.forEach(element => {
             if( element.seen_at !== null){
                this.deleteNotif(element) 
             }
@@ -167,7 +164,7 @@ props:['notifications','unseen'],
     }
  },
  mounted(){
-    //   this.notifications = []
+    //   this.items = []
     //  this.getNotification()
  }
 }

@@ -75,7 +75,7 @@
               <div slot="card"    >
                     <div class="py-2">Partenariat</div>
                     <div>
-                      <v-image src="admin.jpg"></v-image>
+                      <v-img src="admin.jpg"></v-img>
                     </div>
               </div>
             </cardHover>

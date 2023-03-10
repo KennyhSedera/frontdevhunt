@@ -30,10 +30,10 @@
 export default {
     name:"reactionComponent",
     data() {
-        
+        return{}
     },
     component:{
 
     }
 }
-</script>ipt
+</script>

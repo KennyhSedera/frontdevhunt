@@ -10,9 +10,6 @@
              :class="`${$route.params.time === item.updated_at ?'grey lighten-2':'white'} mb-1`"
               :key="item.id_commentaire"
             >
-              <!-- <v-list-item-avatar class="c-pointer" @click="$router.push({name: 'Profil',params:{idUser : item.id_user}})">
-                <v-img size="60" :src="item.profil_image" ></v-img>
-              </v-list-item-avatar> -->
               <userProfil />
               <v-list-item-content>
                 <v-list-item-title >

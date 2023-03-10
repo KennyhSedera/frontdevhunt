@@ -10,7 +10,7 @@ return Api().delete('message/'+data)
 update (data, id) {
 return Api().put('message/'+id, data)
 },
-getAll (id1, id2) {
+getAllById (id1, id2) {
 return Api().get('message/'+id1+'/'+id2)
 },
 getAll (id) {
