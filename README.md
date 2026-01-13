@@ -1,6 +1,6 @@
 # 🏆 DevHunt — Frontend StackOverflow ENI
 
-Frontend de l’application **StackOverflow ENI**, développée dans le cadre de la compétition **DevHunt (École Nationale d’Informatique — ENI)**.
+Frontend de l’application **StackOverflow ENI**, développée dans le cadre de la compétition **DevHunt (École Nationale d’Informatique — ENI) 2023**.
 
 Cette app web est construite avec **Vue.js** et communique avec un backend **Node.js** pour fournir une plateforme de questions/réponses similaire à StackOverflow dédiée à la communauté ENI.
 
